@@ -29,9 +29,8 @@ public class TimeEntryController {
     }
 
     @PostMapping
-        public ResponseEntity<TimeEntry> start(@RequestBody TimeEntry timeEntry) {
-            startTimeUseCase.execute(timeEntry);
-            return ResponseEntity.ok().build();
+        public ResponseEntity<TimeEntry> start(@RequestBody TimeEntry timeEntry) throws Exception {
+            return ResponseEntity.ok(startTimeUseCase.execute(timeEntry));
         }
 
         @PutMapping

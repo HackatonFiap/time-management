@@ -1,30 +1,37 @@
 package fiap.hackaton.grupo32.hackatoncompany.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntryConstraintException;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TimeEntry {
 
-    private Long id;
+    private UUID id;
     private UUID employeeId;
-    LocalDateTime startTime;
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private TimeEntriesTypeEnum timeEntriesTypeEnum;
+    private TimeEntriesTypeEnum entryType;
     private Boolean isToday;
 
-    protected TimeEntry(UUID employeeId, LocalDateTime startTime) {
+
+    public TimeEntry() {
+    }
+
+    public TimeEntry(UUID employeeId, LocalDateTime startTime) {
         this.employeeId = employeeId;
         this.startTime = startTime;
-        if (startTime != null) {
-            this.isToday = startTime.toLocalDate().isEqual(LocalDateTime.now().toLocalDate());
-        }
     }
 
     public  TimeEntriesTypeEnum getType(){
-        return this.timeEntriesTypeEnum;
+        return this.entryType;
     }
 
     public void setEndTime(LocalDateTime endTime) {
