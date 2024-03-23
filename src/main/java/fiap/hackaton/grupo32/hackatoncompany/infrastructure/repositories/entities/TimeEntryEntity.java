@@ -1,21 +1,34 @@
-package fiap.hackaton.grupo32.hackatoncompany.domain.entities;
+package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entities;
 
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntryConstraintException;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class TimeEntry {
+@Entity
+public class TimeEntryEntity {
 
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private UUID employeeId;
-    LocalDateTime startTime;
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
     private TimeEntriesTypeEnum timeEntriesTypeEnum;
     private Boolean isToday;
 
-    protected TimeEntry(UUID employeeId, LocalDateTime startTime) {
+    public TimeEntryEntity() {
+        if (startTime != null) {
+            this.isToday = startTime.toLocalDate().isEqual(LocalDateTime.now().toLocalDate());
+        }
+    }
+
+    protected TimeEntryEntity(UUID employeeId, LocalDateTime startTime) {
         this.employeeId = employeeId;
         this.startTime = startTime;
         if (startTime != null) {

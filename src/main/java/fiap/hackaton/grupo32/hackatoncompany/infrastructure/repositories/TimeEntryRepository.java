@@ -10,5 +10,7 @@ public interface TimeEntryRepository {
     void update(TimeEntry timeEntry);
     void delete(Long id);
     TimeEntry find(Long id);
-    List<TimeEntry> findOpenTimeEntriesForDay(Long employeeId, LocalDate date);
+    List<TimeEntry> findTimeEntriesForDay(Long employeeId, LocalDate date);
+    List<TimeEntry> findTimeEntriesForMonth(Long employeeId, LocalDate date);
+    List<TimeEntry> findTimeEntriesForToday(Long employeeId);
 }
