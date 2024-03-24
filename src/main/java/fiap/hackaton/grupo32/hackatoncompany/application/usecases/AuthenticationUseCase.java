@@ -33,21 +33,21 @@ public class AuthenticationUseCase {
     }
 
     public LoginResponse login(LoginDto loginDto) {
-        log.info("Iniciando login do user: " + loginDto.matricula());
+        log.info("Iniciando login do user: " + loginDto.corporateId());
 
         log.info("Consultando user na base");
-        var userDto = employeeRepositoryPortOut.findByRegistry(loginDto.matricula());
+        var userDto = employeeRepositoryPortOut.findByRegistry(loginDto.corporateId());
 
         if (userDto.isEmpty() || Boolean.FALSE.equals(isPasswordValid(loginDto, userDto.get()))) {
             throw new BadCredentialsException("user or password is invalid!");
         }
 
-        log.info("Gerando token para o user: " + loginDto.matricula());
+        log.info("Gerando token para o user: " + loginDto.corporateId());
         var expiresIn = Instant.now().plus(1, ChronoUnit.HOURS);
 
         var claims = JwtClaimsSet.builder()
                 .issuer("hackaton-company")
-                .subject(userDto.get().matricula())
+                .subject(userDto.get().corporateId())
                 .claim("scope", userDto.get().role().name())
                 .expiresAt(expiresIn)
                 .issuedAt(Instant.now())
@@ -55,7 +55,7 @@ public class AuthenticationUseCase {
 
         var token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-        log.info("Token gerado com sucesso para o user: " + loginDto.matricula());
+        log.info("Token gerado com sucesso para o user: " + loginDto.corporateId());
         return new LoginResponse(token, expiresIn.getEpochSecond() / 1000);
     }
 

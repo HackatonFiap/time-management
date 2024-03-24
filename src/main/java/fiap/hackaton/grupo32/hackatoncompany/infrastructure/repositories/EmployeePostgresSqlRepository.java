@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface EmployeePostgresSqlRepository extends JpaRepository<EmployeeEntity, UUID> {
-    Optional<EmployeeEntity> findByMatricula(String name);
+    Optional<EmployeeEntity> findByCorporateId(String name);
 }

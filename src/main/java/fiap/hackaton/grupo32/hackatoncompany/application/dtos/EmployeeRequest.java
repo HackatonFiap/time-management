@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record EmployeeRequest(
-        @NotBlank(message = "Matricula is required")
-        String matricula,
+        @NotBlank(message = "CorporateId is required")
+        String corporateId,
         @NotBlank(message = "Password is required")
         String password,
         @NotNull(message = "Role is required")

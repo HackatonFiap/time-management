@@ -29,9 +29,9 @@ public class EmployeeRepositoryAdapterPortOut implements EmployeeRepositoryPortO
 
     @Override
     public Optional<EmployeeDto> findByRegistry(String name) {
-        var employee = repository.findByMatricula(name);
+        var employee = repository.findByCorporateId(name);
         return employee.stream()
-                .filter(user -> user.getMatricula().equals(name))
+                .filter(user -> user.getCorporateId().equals(name))
                 .map(mapper::employeeEntityToEmployeeDto)
                 .findFirst();
     }

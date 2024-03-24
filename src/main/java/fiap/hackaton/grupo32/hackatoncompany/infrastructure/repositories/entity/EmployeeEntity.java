@@ -16,7 +16,7 @@ public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String matricula;
+    private String corporateId;
     private String password;
     @Enumerated(EnumType.STRING)
     private RolesEnum role;

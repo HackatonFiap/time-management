@@ -6,26 +6,26 @@ import java.util.List;
 
 public class Employee {
 
-    private String matricula;
+    private String corporateId;
     private String password;
 
     private RolesEnum role;
 
     private List<TimeEntry> timeEntries;
 
-    public Employee(String matricula, String password, RolesEnum role, List<TimeEntry> timeEntries) {
-        this.matricula = matricula;
+    public Employee(String corporateId, String password, RolesEnum role, List<TimeEntry> timeEntries) {
+        this.corporateId = corporateId;
         this.password = password;
         this.role = role;
         this.timeEntries = timeEntries;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getCorporateId() {
+        return corporateId;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setCorporateId(String corporateId) {
+        this.corporateId = corporateId;
     }
 
     public String getPassword() {
