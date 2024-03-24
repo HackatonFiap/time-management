@@ -7,6 +7,7 @@ import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntryConstraintException;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.mappers.GeneralObjectMapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class StartTimeUseCase {
@@ -23,17 +24,19 @@ public class StartTimeUseCase {
     public TimeEntryDto execute(TimeEntryDto timeEntryDto) throws Exception {
 
         if (timeEntryDto.entryType().equals(TimeEntriesTypeEnum.WORK)) {
-            List<TimeEntryDto> openWorkEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntryDto.startTime(), timeEntryDto.employeeId(), TimeEntriesTypeEnum.WORK);
+            List<TimeEntryDto> openWorkEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(LocalDateTime.now(), timeEntryDto.employeeId(), TimeEntriesTypeEnum.WORK);
             if (!openWorkEntries.isEmpty()) {
                 throw new TimeEntryConstraintException("There is already an open WORK time entry for this user on this date.");
             }
         } else {
-            List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntryDto.startTime(), timeEntryDto.employeeId(), timeEntryDto.entryType());
+            List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(LocalDateTime.now(), timeEntryDto.employeeId(), timeEntryDto.entryType());
             if (!openEntries.isEmpty()) {
                 throw new TimeEntryConstraintException("There is already an open " + timeEntryDto.entryType() + " time entry for this user on this date.");
             }
         }
+        var timeEntry = mapper.timeEntryDtoToTimeEntry(timeEntryDto);
+        timeEntry.setStartTime(LocalDateTime.now());
 
-        return timeEntryRepositoryPortOut.save(timeEntryDto);
+        return timeEntryRepositoryPortOut.save(mapper.timeEntryToTimeEntryDto(timeEntry));
     }
 }

@@ -14,4 +14,7 @@ public interface TimeEntryRepositoryPortOut {
     List<TimeEntryDto> findByDateAndUserId(LocalDateTime date, UUID userId);
     List<TimeEntryDto> findOpenByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
     List<TimeEntryDto> findClosedByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
+    List<TimeEntryDto> findByUserAndType(UUID userId, TimeEntriesTypeEnum type);
+
+    void update(UUID id, LocalDateTime endTime);
 }

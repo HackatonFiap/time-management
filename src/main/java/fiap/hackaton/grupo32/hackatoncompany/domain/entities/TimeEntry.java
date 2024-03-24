@@ -19,7 +19,6 @@ public class TimeEntry {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private TimeEntriesTypeEnum entryType;
-    private Boolean isToday;
 
 
     public TimeEntry() {
