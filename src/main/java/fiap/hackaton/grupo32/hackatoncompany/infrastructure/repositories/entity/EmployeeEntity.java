@@ -1,6 +1,7 @@
-package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entities;
+package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entity;
 
 
+import fiap.hackaton.grupo32.hackatoncompany.domain.enums.RolesEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,10 @@ public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    private String email;
+    private String matricula;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private RolesEnum role;
 
     @OneToMany(mappedBy = "employeeId")
     private List<TimeEntryEntity> timeEntries;

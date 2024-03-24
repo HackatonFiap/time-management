@@ -2,7 +2,7 @@ package fiap.hackaton.grupo32.hackatoncompany.application.rest.auth;
 
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.LoginDto;
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.LoginResponse;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecase.AuthenticationUseCase;
+import fiap.hackaton.grupo32.hackatoncompany.application.usecases.AuthenticationUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

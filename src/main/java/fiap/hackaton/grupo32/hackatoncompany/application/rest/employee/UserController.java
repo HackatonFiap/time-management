@@ -1,10 +1,10 @@
-package fiap.hackaton.grupo32.hackatoncompany.application.rest.user;
+package fiap.hackaton.grupo32.hackatoncompany.application.rest.employee;
 
-import fiap.hackaton.grupo32.hackatoncompany.application.dtos.UserDto;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecase.UserUseCase;
+import fiap.hackaton.grupo32.hackatoncompany.application.dtos.EmployeeDto;
+import fiap.hackaton.grupo32.hackatoncompany.application.dtos.EmployeeRequest;
+import fiap.hackaton.grupo32.hackatoncompany.application.usecases.EmployeeUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,15 @@ import java.util.List;
 @RequestMapping(value = "/v1/user")
 public class UserController {
 
-    private final UserUseCase userUseCase;
+    private final EmployeeUseCase employeeUseCase;
 
     @PostMapping(
             value = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<String> create(@RequestBody @Valid UserDto userDto) {
-        userUseCase.create(userDto);
+    public ResponseEntity<String> create(@RequestBody @Valid EmployeeRequest employeeRequest) {
+        employeeUseCase.create(employeeRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully!");
     }
 
@@ -36,7 +36,7 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<List<UserDto>> findByRegistry() {
-        return ResponseEntity.ok(userUseCase.findAll());
+    public ResponseEntity<List<EmployeeDto>> findByRegistry() {
+        return ResponseEntity.ok(employeeUseCase.findAll());
     }
 }

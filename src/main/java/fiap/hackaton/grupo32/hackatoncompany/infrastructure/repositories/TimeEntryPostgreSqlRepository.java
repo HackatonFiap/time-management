@@ -1,19 +1,18 @@
 package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories;
 
-import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.TimeEntryRepositoryPort;
-import fiap.hackaton.grupo32.hackatoncompany.domain.entities.TimeEntry;
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
-import fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entities.TimeEntryEntity;
+import fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entity.TimeEntryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface TimeEntryRepository extends JpaRepository<TimeEntryEntity, UUID>, TimeEntryRepositoryPort {
+@Repository
+public interface TimeEntryPostgreSqlRepository extends JpaRepository<TimeEntryEntity, UUID> {
 
     @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime = :startTime AND t.employeeId = :employeeId")
     List<TimeEntryEntity> findByDateAndUserId(@Param("startTime") LocalDateTime startTime, @Param("employeeId") UUID employeeId);

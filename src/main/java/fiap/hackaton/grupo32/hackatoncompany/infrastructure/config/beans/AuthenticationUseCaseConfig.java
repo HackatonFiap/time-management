@@ -1,7 +1,7 @@
 package fiap.hackaton.grupo32.hackatoncompany.infrastructure.config.beans;
 
-import fiap.hackaton.grupo32.hackatoncompany.application.pots.out.TimeManagementRespositoryOut;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecase.AuthenticationUseCase;
+import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.EmployeeRepositoryPortOut;
+import fiap.hackaton.grupo32.hackatoncompany.application.usecases.AuthenticationUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,12 +13,12 @@ public class AuthenticationUseCaseConfig {
 
     @Bean
     public AuthenticationUseCase authenticationUseCase(
-            TimeManagementRespositoryOut timeManagementRespositoryOut,
+            EmployeeRepositoryPortOut employeeRepositoryPortOut,
             JwtDecoder jwtDecoder, JwtEncoder jwtEncoder,
             BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         return new AuthenticationUseCase(
-                timeManagementRespositoryOut, jwtDecoder, jwtEncoder, bCryptPasswordEncoder
+                employeeRepositoryPortOut, jwtDecoder, jwtEncoder, bCryptPasswordEncoder
         );
     }
 }
