@@ -1,5 +1,6 @@
 package fiap.hackaton.grupo32.hackatoncompany.application.ports.in;
 
+import fiap.hackaton.grupo32.hackatoncompany.application.dtos.TimeEntryDto;
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.DeleteTimeUseCase;
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.EndTimeUseCase;
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.ListTimeUseCase;
@@ -29,7 +30,7 @@ public class TimeEntryController {
     }
 
     @PostMapping
-        public ResponseEntity<TimeEntry> start(@RequestBody TimeEntry timeEntry) throws Exception {
+        public ResponseEntity<TimeEntryDto> start(@RequestBody TimeEntry timeEntry) throws Exception {
             return ResponseEntity.ok(startTimeUseCase.execute(timeEntry));
         }
 

@@ -1,4 +1,4 @@
-package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entities;
+package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
@@ -16,7 +16,6 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TimeEntryEntity {
 
     @Id

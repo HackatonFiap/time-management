@@ -1,9 +1,9 @@
-package fiap.hackaton.grupo32.hackatoncompany.application.usecase;
+package fiap.hackaton.grupo32.hackatoncompany.application.usecases;
 
+import fiap.hackaton.grupo32.hackatoncompany.application.dtos.EmployeeDto;
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.LoginDto;
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.LoginResponse;
-import fiap.hackaton.grupo32.hackatoncompany.application.dtos.UserDto;
-import fiap.hackaton.grupo32.hackatoncompany.application.pots.out.TimeManagementRespositoryOut;
+import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.EmployeeRepositoryPortOut;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,15 +18,15 @@ import java.time.temporal.ChronoUnit;
 @Slf4j
 public class AuthenticationUseCase {
 
-    private final TimeManagementRespositoryOut timeManagementRespositoryOut;
+    private final EmployeeRepositoryPortOut employeeRepositoryPortOut;
     private final JwtDecoder jwtDecoder;
     private final JwtEncoder jwtEncoder;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthenticationUseCase(TimeManagementRespositoryOut timeManagementRespositoryOut,
+    public AuthenticationUseCase(EmployeeRepositoryPortOut employeeRepositoryPortOut,
                                  JwtDecoder jwtDecoder, JwtEncoder jwtEncoder,
                                  BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.timeManagementRespositoryOut = timeManagementRespositoryOut;
+        this.employeeRepositoryPortOut = employeeRepositoryPortOut;
         this.jwtDecoder = jwtDecoder;
         this.jwtEncoder = jwtEncoder;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -36,7 +36,7 @@ public class AuthenticationUseCase {
         log.info("Iniciando login do user: " + loginDto.matricula());
 
         log.info("Consultando user na base");
-        var userDto = timeManagementRespositoryOut.findByRegistry(loginDto.matricula());
+        var userDto = employeeRepositoryPortOut.findByRegistry(loginDto.matricula());
 
         if (userDto.isEmpty() || Boolean.FALSE.equals(isPasswordValid(loginDto, userDto.get()))) {
             throw new BadCredentialsException("user or password is invalid!");
@@ -59,7 +59,7 @@ public class AuthenticationUseCase {
         return new LoginResponse(token, expiresIn.getEpochSecond() / 1000);
     }
 
-    private Boolean isPasswordValid(LoginDto loginDto, UserDto userDto) {
-        return bCryptPasswordEncoder.matches(loginDto.password(), userDto.password());
+    private Boolean isPasswordValid(LoginDto loginDto, EmployeeDto employeeDto) {
+        return bCryptPasswordEncoder.matches(loginDto.password(), employeeDto.password());
     }
 }
