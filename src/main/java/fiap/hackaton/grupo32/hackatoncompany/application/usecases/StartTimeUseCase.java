@@ -20,20 +20,20 @@ public class StartTimeUseCase {
         this.mapper = mapper;
     }
 
-    public TimeEntryDto execute(TimeEntry timeEntry) throws Exception {
+    public TimeEntryDto execute(TimeEntryDto timeEntryDto) throws Exception {
 
-        if (timeEntry.getType().equals(TimeEntriesTypeEnum.WORK)) {
-            List<TimeEntryDto> openWorkEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntry.getStartTime(), timeEntry.getEmployeeId(), TimeEntriesTypeEnum.WORK);
+        if (timeEntryDto.entryType().equals(TimeEntriesTypeEnum.WORK)) {
+            List<TimeEntryDto> openWorkEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntryDto.startTime(), timeEntryDto.employeeId(), TimeEntriesTypeEnum.WORK);
             if (!openWorkEntries.isEmpty()) {
                 throw new TimeEntryConstraintException("There is already an open WORK time entry for this user on this date.");
             }
         } else {
-            List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntry.getStartTime(), timeEntry.getEmployeeId(), timeEntry.getType());
+            List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findOpenByDateAndUserIdAndType(timeEntryDto.startTime(), timeEntryDto.employeeId(), timeEntryDto.entryType());
             if (!openEntries.isEmpty()) {
-                throw new TimeEntryConstraintException("There is already an open " + timeEntry.getType() + " time entry for this user on this date.");
+                throw new TimeEntryConstraintException("There is already an open " + timeEntryDto.entryType() + " time entry for this user on this date.");
             }
         }
 
-        return timeEntryRepositoryPortOut.save(mapper.timeEntryToTimeEntryDto(timeEntry));
+        return timeEntryRepositoryPortOut.save(timeEntryDto);
     }
 }
