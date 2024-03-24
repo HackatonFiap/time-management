@@ -29,9 +29,9 @@ public class EmployeeUseCase {
     }
 
     public void create(EmployeeRequest employeeDto) {
-        log.info("Creating user: {}", employeeDto.matricula());
+        log.info("Creating user: {}", employeeDto.corporateId());
 
-        var userFromDb = employeeRepositoryPortOut.findByRegistry(employeeDto.matricula());
+        var userFromDb = employeeRepositoryPortOut.findByRegistry(employeeDto.corporateId());
 
         if (userFromDb.isPresent()) {
             throw new BadRequestException("User already exists");
@@ -40,7 +40,7 @@ public class EmployeeUseCase {
         List<TimeEntry> timeEntries = new ArrayList<>();
 
         Employee employee = new Employee(
-                employeeDto.matricula(),
+                employeeDto.corporateId(),
                 bCryptPasswordEncoder.encode(employeeDto.password()),
                 employeeDto.role(),
                 timeEntries
