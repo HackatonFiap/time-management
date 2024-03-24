@@ -29,14 +29,26 @@ public class TimeEntryRepositoryAdapterOut implements TimeEntryRepositoryPortOut
     }
 
     @Override
+    public TimeEntryDto update(TimeEntryDto timeEntryDto) {
+        var entity = repository.save(mapper.timeEntryDtoToTimeEntryEntity(timeEntryDto));
+        return mapper.timeEntryEntityToTimeEntryDto(entity);
+    }
+
+    @Override
     public List<TimeEntryDto> findByDateAndUserId(LocalDateTime date, UUID userId) {
-        var entities = repository.findByDateAndUserId(date, userId);
+        var entities = repository.findByDateAndEmployeeId(date, userId);
         return entities.stream().map(mapper::timeEntryEntityToTimeEntryDto).toList();
     }
 
     @Override
     public List<TimeEntryDto> findOpenByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type) {
-        var entities = repository.findOpenByDateAndUserIdAndType(date, userId, type);
+        var entities = repository.findOpenByDateAndEmployeeIdAndType(date, userId, type);
+        return entities.stream().map(mapper::timeEntryEntityToTimeEntryDto).toList();
+    }
+
+    @Override
+    public List<TimeEntryDto> findClosedByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type) {
+        var entities = repository.findOpenByDateAndEmployeeIdAndType(date, userId, type);
         return entities.stream().map(mapper::timeEntryEntityToTimeEntryDto).toList();
     }
 }

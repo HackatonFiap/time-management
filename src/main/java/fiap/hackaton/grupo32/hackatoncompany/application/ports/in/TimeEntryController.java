@@ -30,31 +30,31 @@ public class TimeEntryController {
     }
 
     @PostMapping
-        public ResponseEntity<TimeEntryDto> start(@RequestBody TimeEntry timeEntry) throws Exception {
-            return ResponseEntity.ok(startTimeUseCase.execute(timeEntry));
-        }
+        public ResponseEntity<TimeEntryDto> start(@RequestBody TimeEntryDto timeEntryDto) throws Exception {
+            return ResponseEntity.ok(startTimeUseCase.execute(timeEntryDto));
+    }
 
-        @PutMapping
-        public ResponseEntity<TimeEntry> end(@RequestBody TimeEntry timeEntry) {
-            endTimeUseCase.execute(timeEntry);
-            return ResponseEntity.ok().build();
-        }
+    @PutMapping
+    public ResponseEntity<TimeEntry> end(@RequestBody TimeEntryDto timeEntryDto) throws Exception{
+        endTimeUseCase.execute(timeEntryDto);
+        return ResponseEntity.ok().build();
+    }
 
-        @GetMapping
-        public ResponseEntity<List<TimeEntry>> findAll() {
-            listTimeUseCase.findAll();
-            return ResponseEntity.ok().build();
-        }
+    @GetMapping
+    public ResponseEntity<List<TimeEntry>> findAll() {
+        listTimeUseCase.findAll();
+        return ResponseEntity.ok().build();
+    }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<TimeEntry> findById(@PathVariable UUID id) {
-            listTimeUseCase.findById(id);
-            return ResponseEntity.ok().build();
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<TimeEntry> findById(@PathVariable UUID id) {
+        listTimeUseCase.findById(id);
+        return ResponseEntity.ok().build();
+    }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(@PathVariable UUID id) {
-            deleteTimeUseCase.execute(id);
-            return ResponseEntity.ok().build();
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        deleteTimeUseCase.execute(id);
+        return ResponseEntity.ok().build();
+    }
 }

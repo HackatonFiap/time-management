@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public interface TimeEntryRepositoryPortOut {
     TimeEntryDto save(TimeEntryDto timeEntryDto);
+    TimeEntryDto update(TimeEntryDto timeEntryDto);
     List<TimeEntryDto> findByDateAndUserId(LocalDateTime date, UUID userId);
     List<TimeEntryDto> findOpenByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
+    List<TimeEntryDto> findClosedByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
 }
