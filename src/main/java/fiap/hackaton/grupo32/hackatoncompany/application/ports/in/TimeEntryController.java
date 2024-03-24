@@ -4,6 +4,7 @@ import fiap.hackaton.grupo32.hackatoncompany.application.usecases.DeleteTimeUseC
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.EndTimeUseCase;
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.ListTimeUseCase;
 import fiap.hackaton.grupo32.hackatoncompany.application.usecases.StartTimeUseCase;
+import fiap.hackaton.grupo32.hackatoncompany.domain.dto.TimeEntryDto;
 import fiap.hackaton.grupo32.hackatoncompany.domain.entities.TimeEntry;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class TimeEntryController {
     }
 
     @PostMapping
-        public ResponseEntity<TimeEntry> start(@RequestBody TimeEntry timeEntry) throws Exception {
+        public ResponseEntity<TimeEntryDto> start(@RequestBody TimeEntryDto timeEntry) throws Exception {
             return ResponseEntity.ok(startTimeUseCase.execute(timeEntry));
         }
 

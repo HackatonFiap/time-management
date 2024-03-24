@@ -18,8 +18,7 @@ public class TimeEntry {
     private UUID employeeId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private TimeEntriesTypeEnum entryType;
-    private Boolean isToday;
+    private TimeEntriesTypeEnum type;
 
 
     public TimeEntry() {
@@ -31,7 +30,7 @@ public class TimeEntry {
     }
 
     public  TimeEntriesTypeEnum getType(){
-        return this.entryType;
+        return this.type;
     }
 
     public void setEndTime(LocalDateTime endTime) {

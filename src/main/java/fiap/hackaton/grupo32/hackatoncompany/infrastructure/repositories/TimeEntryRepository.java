@@ -18,6 +18,6 @@ public interface TimeEntryRepository extends JpaRepository<TimeEntryEntity, UUID
     @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime = :startTime AND t.employeeId = :employeeId")
     List<TimeEntryEntity> findByDateAndUserId(@Param("startTime") LocalDateTime startTime, @Param("employeeId") UUID employeeId);
 
-    @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime = :date AND t.employeeId = :userId AND t.timeEntriesTypeEnum = :type AND t.endTime IS NULL")
+    @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime = :date AND t.employeeId = :userId AND t.type = :type AND t.endTime IS NULL")
     List<TimeEntryEntity> findOpenByDateAndUserIdAndType(@Param("date") LocalDateTime date, @Param("userId") UUID userId, @Param("type") TimeEntriesTypeEnum type);
 }

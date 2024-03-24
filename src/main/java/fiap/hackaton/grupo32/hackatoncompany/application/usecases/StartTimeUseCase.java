@@ -1,6 +1,7 @@
 package fiap.hackaton.grupo32.hackatoncompany.application.usecases;
 
 import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.TimeEntryRepositoryPort;
+import fiap.hackaton.grupo32.hackatoncompany.domain.dto.TimeEntryDto;
 import fiap.hackaton.grupo32.hackatoncompany.domain.entities.TimeEntry;
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntryConstraintException;
@@ -18,7 +19,9 @@ public class StartTimeUseCase {
         this.timeEntryRepository = timeEntryRepository;
     }
 
-    public TimeEntry execute(TimeEntry timeEntry) throws Exception {
+    public TimeEntryDto execute(TimeEntryDto timeEntryDto) {
+
+        TimeEntry timeEntry = convertDtoToTimeEntry(timeEntryDto);
 
         if (timeEntry.getType().equals(TimeEntriesTypeEnum.WORK)) {
             List<TimeEntryEntity> openWorkEntries = timeEntryRepository.findOpenByDateAndUserIdAndType(timeEntry.getStartTime(), timeEntry.getEmployeeId(), TimeEntriesTypeEnum.WORK);
@@ -33,7 +36,7 @@ public class StartTimeUseCase {
         }
 
         TimeEntryEntity timeEntries = timeEntryRepository.save(convertToTimeEntryEntity(timeEntry));
-        return convertToTimeEntry(timeEntries);
+        return convertEntityToDto(timeEntries);
     }
 
     public TimeEntry convertToTimeEntry(TimeEntryEntity timeEntryEntity) {
@@ -41,7 +44,7 @@ public class StartTimeUseCase {
         timeEntry.setId(timeEntryEntity.getId());
         timeEntry.setStartTime(timeEntryEntity.getStartTime());
         timeEntry.setEndTime(timeEntryEntity.getEndTime());
-        timeEntry.setEntryType(timeEntryEntity.getTimeEntriesTypeEnum());
+        timeEntry.setType(timeEntryEntity.getType());
         timeEntry.setEmployeeId(timeEntryEntity.getEmployeeId());
         return timeEntry;
     }
@@ -51,8 +54,33 @@ public class StartTimeUseCase {
         timeEntryEntity.setId(timeEntry.getId());
         timeEntryEntity.setStartTime(timeEntry.getStartTime());
         timeEntryEntity.setEndTime(timeEntry.getEndTime());
-        timeEntryEntity.setTimeEntriesTypeEnum(timeEntry.getType());
+        timeEntryEntity.setType(timeEntry.getType());
         timeEntryEntity.setEmployeeId(timeEntry.getEmployeeId());
         return timeEntryEntity;
+    }
+
+    public TimeEntry convertDtoToTimeEntry(TimeEntryDto timeEntryDto) {
+        TimeEntry timeEntry = new TimeEntry();
+        timeEntry.setEmployeeId(timeEntryDto.employeeId());
+        timeEntry.setStartTime(timeEntryDto.startTime());
+        timeEntry.setEndTime(timeEntryDto.endTime());
+        timeEntry.setType(timeEntryDto.entryType());
+        return timeEntry;
+    }
+    public TimeEntryDto convertTimeEntryToDto(TimeEntryEntity timeEntry) {
+        return new TimeEntryDto(
+                timeEntry.getEmployeeId(),
+                timeEntry.getStartTime(),
+                timeEntry.getEndTime(),
+                timeEntry.getType()
+        );
+    }
+    public TimeEntryDto convertEntityToDto(TimeEntryEntity timeEntryEntity) {
+        return new TimeEntryDto(
+                timeEntryEntity.getEmployeeId(),
+                timeEntryEntity.getStartTime(),
+                timeEntryEntity.getEndTime(),
+                timeEntryEntity.getType()
+        );
     }
 }
