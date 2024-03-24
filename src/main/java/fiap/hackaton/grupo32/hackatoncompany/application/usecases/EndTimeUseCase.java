@@ -8,6 +8,7 @@ import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntry
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.mappers.GeneralObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,11 +25,15 @@ public class EndTimeUseCase {
 
     public TimeEntryDto execute(TimeEntryDto timeEntryDto) throws Exception {
 
-        List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findClosedByDateAndUserIdAndType(timeEntryDto.endTime(), timeEntryDto.employeeId(), timeEntryDto.entryType());
+        List<TimeEntryDto> openEntries = timeEntryRepositoryPortOut.findClosedByDateAndUserIdAndType(LocalDateTime.now(), timeEntryDto.employeeId(), timeEntryDto.entryType());
         if (!openEntries.isEmpty()) {
             throw new TimeEntryConstraintException("There is already an Closed " + timeEntryDto.entryType() + " time entry for this user on this date.");
         }
 
-        return timeEntryRepositoryPortOut.save(timeEntryDto);
+        List<TimeEntryDto> timeEntries = timeEntryRepositoryPortOut.findByUserAndType(timeEntryDto.employeeId(), timeEntryDto.entryType());
+        var timeEntryEntity = mapper.timeEntryDtoToTimeEntryEntity(timeEntries.getFirst());
+        timeEntryEntity.setEndTime(LocalDateTime.now());
+        timeEntryRepositoryPortOut.update(timeEntryEntity.getId(), timeEntryEntity.getEndTime());
+        return timeEntryDto;
     }
 }
