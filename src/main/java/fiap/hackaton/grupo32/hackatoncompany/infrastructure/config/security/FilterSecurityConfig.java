@@ -40,6 +40,7 @@ public class FilterSecurityConfig {
         httpSecurity.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/v1/user/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
                         .anyRequest()
                         .authenticated())
                 .csrf(csrf -> csrf.disable())
