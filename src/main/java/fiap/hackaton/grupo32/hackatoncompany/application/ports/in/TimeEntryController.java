@@ -1,10 +1,8 @@
 package fiap.hackaton.grupo32.hackatoncompany.application.ports.in;
 
+import fiap.hackaton.grupo32.hackatoncompany.application.dtos.ReportTimeMonthIn;
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.TimeEntryDto;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecases.DeleteTimeUseCase;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecases.EndTimeUseCase;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecases.ListTimeUseCase;
-import fiap.hackaton.grupo32.hackatoncompany.application.usecases.StartTimeUseCase;
+import fiap.hackaton.grupo32.hackatoncompany.application.usecases.*;
 import fiap.hackaton.grupo32.hackatoncompany.domain.entities.TimeEntry;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,12 +19,15 @@ public class TimeEntryController {
     private final EndTimeUseCase endTimeUseCase;
     private final DeleteTimeUseCase deleteTimeUseCase;
     private final ListTimeUseCase listTimeUseCase;
+    private final ReportMonthUseCase reportMonthUseCase;
 
-    public TimeEntryController(StartTimeUseCase startTimeUseCase, EndTimeUseCase endTimeUseCase, DeleteTimeUseCase deleteTimeUseCase, ListTimeUseCase listTimeUseCase) {
+    public TimeEntryController(StartTimeUseCase startTimeUseCase, EndTimeUseCase endTimeUseCase,
+                               DeleteTimeUseCase deleteTimeUseCase, ListTimeUseCase listTimeUseCase, ReportMonthUseCase reportMonthUseCase) {
         this.startTimeUseCase = startTimeUseCase;
         this.endTimeUseCase = endTimeUseCase;
         this.deleteTimeUseCase = deleteTimeUseCase;
         this.listTimeUseCase = listTimeUseCase;
+        this.reportMonthUseCase = reportMonthUseCase;
     }
 
     @PostMapping
@@ -37,6 +38,12 @@ public class TimeEntryController {
     @PutMapping
     public ResponseEntity<TimeEntry> end(@RequestBody TimeEntryDto timeEntryDto) throws Exception{
         endTimeUseCase.execute(timeEntryDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/report")
+    public ResponseEntity<List<TimeEntryDto>> report(@RequestBody ReportTimeMonthIn reportTimeMonthIn) throws Exception {
+        reportMonthUseCase.report(reportTimeMonthIn);
         return ResponseEntity.ok().build();
     }
 
