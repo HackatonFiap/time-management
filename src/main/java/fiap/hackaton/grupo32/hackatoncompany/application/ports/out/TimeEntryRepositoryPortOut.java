@@ -14,4 +14,6 @@ public interface TimeEntryRepositoryPortOut {
     List<TimeEntryDto> findByDateAndUserId(LocalDateTime date, UUID userId);
     List<TimeEntryDto> findOpenByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
     List<TimeEntryDto> findClosedByDateAndUserIdAndType(LocalDateTime date, UUID userId, TimeEntriesTypeEnum type);
+    List<TimeEntryDto> reportMonth(LocalDateTime startTime, LocalDateTime endTime, UUID userId);
+
 }

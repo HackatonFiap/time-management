@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.time.format.DateTimeFormatter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,4 +23,7 @@ public interface TimeEntryPostgreSqlRepository extends JpaRepository<TimeEntryEn
 
     @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime IS NULL AND t.employeeId = :userId AND t.timeEntriesTypeEnum = :type AND t.endTime = :date")
     List<TimeEntryEntity> findClosedByDateAndEmployeeIdAndType(@Param("date") LocalDateTime date, @Param("userId") UUID userId, @Param("type") TimeEntriesTypeEnum type);
+
+    @Query("SELECT t FROM TimeEntryEntity t WHERE t.startTime > :startTime and t.endTime < :endTime AND t.employeeId = :userId")
+    List<TimeEntryEntity> reportMonth(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime, @Param("userId") UUID userId);
 }

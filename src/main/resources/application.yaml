@@ -20,6 +20,18 @@ spring:
   docker:
     compose:
       enabled: false
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+            required: 'true'
+          auth: 'true'
+    host: sandbox.smtp.mailtrap.io
+    username: 70f9987ed14c9e
+    password: 0900641cb2bdf2
+    port: '587'
 
 security:
   jwt:
