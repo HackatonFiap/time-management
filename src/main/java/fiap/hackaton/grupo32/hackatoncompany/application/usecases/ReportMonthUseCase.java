@@ -5,8 +5,6 @@ import fiap.hackaton.grupo32.hackatoncompany.application.dtos.SendEmail;
 import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.SendEmailPortOut;
 import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.TimeEntryRepositoryPortOut;
 import java.time.format.DateTimeFormatter;
-
-import java.text.DateFormat;
 import java.util.stream.Collectors;
 
 public class ReportMonthUseCase {
@@ -30,10 +28,11 @@ public class ReportMonthUseCase {
             var bodyEmail = new StringBuilder();
             bodyEmail.append("Data entrada: " + dates.startTime());
             bodyEmail.append(" Data saida: " + dates.endTime());
+            bodyEmail.append(" Tipo apontamento: " + dates.entryType() + "\n");
             return bodyEmail;
         });
 
-        var email = new SendEmail(reportTimeMonthin.email(), "Segue o resumo da folha de ponto", body.toString());
+        var email = new SendEmail(reportTimeMonthin.email(), "Segue o resumo da folha de ponto", body.collect(Collectors.joining()));
 
         sendEmailPortOut.sendEmail(email);
 
