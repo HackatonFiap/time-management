@@ -4,7 +4,10 @@ import fiap.hackaton.grupo32.hackatoncompany.application.dtos.ReportTimeMonthIn;
 import fiap.hackaton.grupo32.hackatoncompany.application.dtos.SendEmail;
 import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.SendEmailPortOut;
 import fiap.hackaton.grupo32.hackatoncompany.application.ports.out.TimeEntryRepositoryPortOut;
+
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 public class ReportMonthUseCase {
@@ -28,7 +31,12 @@ public class ReportMonthUseCase {
             var bodyEmail = new StringBuilder();
             bodyEmail.append("Data entrada: " + dates.startTime());
             bodyEmail.append(" Data saida: " + dates.endTime());
-            bodyEmail.append(" Tipo apontamento: " + dates.entryType() + "\n");
+            bodyEmail.append(" Tipo apontamento: " + dates.entryType());
+            if(dates.entryType().name().equals("WORK")){
+                var duration = Duration.between(dates.startTime(), dates.endTime());
+                bodyEmail.append(" Tempo Trabalhado: " + duration.toString());
+            }
+            bodyEmail.append("\n");
             return bodyEmail;
         });
 
