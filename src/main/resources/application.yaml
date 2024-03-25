@@ -37,3 +37,9 @@ security:
   jwt:
     public-key: classpath:app.pub
     private-key: classpath:app.key
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
