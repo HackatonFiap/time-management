@@ -3,10 +3,7 @@ package fiap.hackaton.grupo32.hackatoncompany.infrastructure.repositories.entity
 import com.fasterxml.jackson.annotation.JsonInclude;
 import fiap.hackaton.grupo32.hackatoncompany.domain.enums.TimeEntriesTypeEnum;
 import fiap.hackaton.grupo32.hackatoncompany.infrastructure.exceptions.TimeEntryConstraintException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +21,9 @@ public class TimeEntryEntity {
     private UUID employeeId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private TimeEntriesTypeEnum timeEntriesTypeEnum;
-    private Boolean isToday;
+
+    @Enumerated(EnumType.STRING)
+    private TimeEntriesTypeEnum entryType;
 
     public TimeEntryEntity() {
     }
@@ -36,7 +34,7 @@ public class TimeEntryEntity {
     }
 
     public  TimeEntriesTypeEnum getType(){
-        return this.timeEntriesTypeEnum;
+        return this.entryType;
     }
 
     public void setEndTime(LocalDateTime endTime) {
